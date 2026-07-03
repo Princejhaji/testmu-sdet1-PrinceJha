@@ -1,0 +1,233 @@
+[
+  {
+    "id": "TC_API_001",
+    "title": "Access API with a valid Bearer token",
+    "preconditions": [
+      "A valid Bearer token 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.validToken123' has been generated.",
+      "The token belongs to user 'api.qa@acmetest.com'.",
+      "Test case with ID 1001 exists."
+    ],
+    "http_method": "GET",
+    "endpoint": "/api/v1/testcases/1001",
+    "expected_status_code": 200,
+    "expected_response_fields": [
+      "id",
+      "title",
+      "description",
+      "priority",
+      "status",
+      "projectId",
+      "createdBy",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "id": "TC_API_002",
+    "title": "Reject request with an expired Bearer token",
+    "preconditions": [
+      "Bearer token 'expiredToken123' has expired.",
+      "Test case with ID 1001 exists."
+    ],
+    "http_method": "GET",
+    "endpoint": "/api/v1/testcases/1001",
+    "expected_status_code": 401,
+    "expected_response_fields": [
+      "error",
+      "message",
+      "timestamp",
+      "status"
+    ]
+  },
+  {
+    "id": "TC_API_003",
+    "title": "Reject request when Authorization token is not provided",
+    "preconditions": [
+      "No Authorization header is included in the request."
+    ],
+    "http_method": "GET",
+    "endpoint": "/api/v1/testcases/1001",
+    "expected_status_code": 401,
+    "expected_response_fields": [
+      "error",
+      "message",
+      "timestamp",
+      "status"
+    ]
+  },
+  {
+    "id": "TC_API_004",
+    "title": "Create a new test case",
+    "preconditions": [
+      "A valid Bearer token is available.",
+      "Project with ID 25 exists."
+    ],
+    "http_method": "POST",
+    "endpoint": "/api/v1/testcases",
+    "expected_status_code": 201,
+    "expected_response_fields": [
+      "id",
+      "title",
+      "description",
+      "priority",
+      "status",
+      "projectId",
+      "createdBy",
+      "createdAt"
+    ]
+  },
+  {
+    "id": "TC_API_005",
+    "title": "Retrieve an existing test case",
+    "preconditions": [
+      "A valid Bearer token is available.",
+      "Test case ID 1001 exists."
+    ],
+    "http_method": "GET",
+    "endpoint": "/api/v1/testcases/1001",
+    "expected_status_code": 200,
+    "expected_response_fields": [
+      "id",
+      "title",
+      "description",
+      "priority",
+      "status",
+      "projectId",
+      "createdBy",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "id": "TC_API_006",
+    "title": "Update an existing test case",
+    "preconditions": [
+      "A valid Bearer token is available.",
+      "Test case ID 1001 exists."
+    ],
+    "http_method": "PUT",
+    "endpoint": "/api/v1/testcases/1001",
+    "expected_status_code": 200,
+    "expected_response_fields": [
+      "id",
+      "title",
+      "description",
+      "priority",
+      "status",
+      "projectId",
+      "updatedAt",
+      "updatedBy"
+    ]
+  },
+  {
+    "id": "TC_API_007",
+    "title": "Delete an existing test case",
+    "preconditions": [
+      "A valid Bearer token is available.",
+      "Test case ID 1001 exists."
+    ],
+    "http_method": "DELETE",
+    "endpoint": "/api/v1/testcases/1001",
+    "expected_status_code": 204,
+    "expected_response_fields": []
+  },
+  {
+    "id": "TC_API_008",
+    "title": "Return 404 when requesting a non-existent test case",
+    "preconditions": [
+      "A valid Bearer token is available.",
+      "Test case ID 999999 does not exist."
+    ],
+    "http_method": "GET",
+    "endpoint": "/api/v1/testcases/999999",
+    "expected_status_code": 404,
+    "expected_response_fields": [
+      "error",
+      "message",
+      "status",
+      "timestamp"
+    ]
+  },
+  {
+    "id": "TC_API_009",
+    "title": "Return 400 for invalid request payload during test case creation",
+    "preconditions": [
+      "A valid Bearer token is available.",
+      "Request body is missing the mandatory field 'title'."
+    ],
+    "http_method": "POST",
+    "endpoint": "/api/v1/testcases",
+    "expected_status_code": 400,
+    "expected_response_fields": [
+      "error",
+      "message",
+      "validationErrors",
+      "status",
+      "timestamp"
+    ]
+  },
+  {
+    "id": "TC_API_010",
+    "title": "Return 500 when an unexpected internal server error occurs",
+    "preconditions": [
+      "A valid Bearer token is available.",
+      "The API is configured to simulate an internal server error."
+    ],
+    "http_method": "GET",
+    "endpoint": "/api/v1/testcases/1001",
+    "expected_status_code": 500,
+    "expected_response_fields": [
+      "error",
+      "message",
+      "status",
+      "timestamp",
+      "traceId"
+    ]
+  },
+  {
+    "id": "TC_API_011",
+    "title": "Enforce API rate limiting",
+    "preconditions": [
+      "A valid Bearer token is available.",
+      "API rate limit is configured to allow 100 requests per minute."
+    ],
+    "http_method": "GET",
+    "endpoint": "/api/v1/testcases",
+    "expected_status_code": 429,
+    "expected_response_fields": [
+      "error",
+      "message",
+      "status",
+      "retryAfter",
+      "timestamp"
+    ]
+  },
+  {
+    "id": "TC_API_012",
+    "title": "Validate response schema for retrieving a test case",
+    "preconditions": [
+      "A valid Bearer token is available.",
+      "Test case ID 1001 exists.",
+      "JSON schema for the Test Case resource is available."
+    ],
+    "http_method": "GET",
+    "endpoint": "/api/v1/testcases/1001",
+    "expected_status_code": 200,
+    "expected_response_fields": [
+      "id",
+      "title",
+      "description",
+      "priority",
+      "status",
+      "projectId",
+      "labels",
+      "preconditions",
+      "steps",
+      "expectedResult",
+      "createdBy",
+      "createdAt",
+      "updatedBy",
+      "updatedAt"
+    ]
+  }
+]

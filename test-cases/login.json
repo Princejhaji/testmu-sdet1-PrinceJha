@@ -1,0 +1,125 @@
+[
+  {
+    "id": "TC_LOGIN_001",
+    "title": "Successful login with valid credentials",
+    "preconditions": [
+      "User account 'qa.user@acmetest.com' exists and is active.",
+      "Password for the account is 'Welcome@123'.",
+      "User is on the Login page."
+    ],
+    "steps": [
+      "Navigate to the Login page.",
+      "Enter email: qa.user@acmetest.com.",
+      "Enter password: Welcome@123.",
+      "Click the 'Login' button."
+    ],
+    "expected_result": "User is successfully authenticated, redirected to the Dashboard page, a valid session is created, and the user's display name 'QA User' is visible in the application header.",
+    "priority": "high"
+  },
+  {
+    "id": "TC_LOGIN_002",
+    "title": "Login fails when password is incorrect",
+    "preconditions": [
+      "User account 'qa.user@acmetest.com' exists and is active.",
+      "User is on the Login page."
+    ],
+    "steps": [
+      "Navigate to the Login page.",
+      "Enter email: qa.user@acmetest.com.",
+      "Enter password: WrongPassword@123.",
+      "Click the 'Login' button."
+    ],
+    "expected_result": "Login is denied. Error message 'Invalid email or password.' is displayed. User remains on the Login page and no session is created.",
+    "priority": "high"
+  },
+  {
+    "id": "TC_LOGIN_003",
+    "title": "Login fails when email address does not exist",
+    "preconditions": [
+      "No account exists for 'unknown.user@acmetest.com'.",
+      "User is on the Login page."
+    ],
+    "steps": [
+      "Navigate to the Login page.",
+      "Enter email: unknown.user@acmetest.com.",
+      "Enter password: Welcome@123.",
+      "Click the 'Login' button."
+    ],
+    "expected_result": "Login is denied. Generic authentication error 'Invalid email or password.' is displayed without revealing whether the account exists.",
+    "priority": "medium"
+  },
+  {
+    "id": "TC_LOGIN_004",
+    "title": "Validation message is displayed when both login fields are blank",
+    "preconditions": [
+      "User is on the Login page."
+    ],
+    "steps": [
+      "Navigate to the Login page.",
+      "Leave the Email field blank.",
+      "Leave the Password field blank.",
+      "Click the 'Login' button."
+    ],
+    "expected_result": "Required field validation messages are displayed for both Email and Password fields. Login request is not submitted.",
+    "priority": "medium"
+  },
+  {
+    "id": "TC_LOGIN_005",
+    "title": "Reset password using the Forgot Password feature",
+    "preconditions": [
+      "User account 'qa.user@acmetest.com' exists.",
+      "User has access to the registered email inbox.",
+      "SMTP/email service is operational."
+    ],
+    "steps": [
+      "Navigate to the Login page.",
+      "Click the 'Forgot Password?' link.",
+      "Enter email: qa.user@acmetest.com.",
+      "Click the 'Send Reset Link' button.",
+      "Open the password reset email.",
+      "Click the reset password link.",
+      "Enter new password: NewWelcome@456.",
+      "Confirm password: NewWelcome@456.",
+      "Submit the password reset form.",
+      "Return to the Login page.",
+      "Log in using email 'qa.user@acmetest.com' and password 'NewWelcome@456'."
+    ],
+    "expected_result": "Password reset is completed successfully. User can authenticate using the newly created password and access the Dashboard.",
+    "priority": "high"
+  },
+  {
+    "id": "TC_LOGIN_006",
+    "title": "User session expires after 15 minutes of inactivity",
+    "preconditions": [
+      "Session timeout is configured to 15 minutes.",
+      "User is logged in as 'qa.user@acmetest.com'."
+    ],
+    "steps": [
+      "Log in successfully.",
+      "Open the Test Cases page.",
+      "Do not perform any keyboard or mouse activity for 15 minutes.",
+      "After 15 minutes, click the 'Add Test Case' button."
+    ],
+    "expected_result": "The application redirects the user to the Login page (or displays a 'Session Expired' message). The attempted action is not completed until the user logs in again.",
+    "priority": "medium"
+  },
+  {
+    "id": "TC_LOGIN_007",
+    "title": "Account is locked after five consecutive failed login attempts",
+    "preconditions": [
+      "User account 'qa.user@acmetest.com' exists and is active.",
+      "Account lockout policy is configured to lock the account after 5 failed login attempts within 10 minutes.",
+      "User is on the Login page."
+    ],
+    "steps": [
+      "Enter email: qa.user@acmetest.com.",
+      "Enter password: WrongPassword@123.",
+      "Click the 'Login' button.",
+      "Repeat the previous three steps five times.",
+      "Enter the correct password: Welcome@123.",
+      "Click the 'Login' button."
+    ],
+    "expected_result": "The account is locked after the fifth failed login attempt. An account lock message is displayed, and login with the correct password is rejected until the lockout duration expires or the account is unlocked by an administrator.",
+    "priority": "high"
+  }
+]

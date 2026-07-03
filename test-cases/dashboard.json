@@ -1,0 +1,198 @@
+[
+  {
+    "id": "TC_DASH_001",
+    "title": "Dashboard loads all widgets successfully for an Admin user",
+    "precondition": [
+      "User is logged in as 'admin.user@acmetest.com' with Admin role.",
+      "Project 'Web Regression Suite' contains dashboard data.",
+      "Dashboard service and backend APIs are available."
+    ],
+    "steps": [
+      "Log in as admin.user@acmetest.com.",
+      "Navigate to the Dashboard.",
+      "Wait until the page finishes loading.",
+      "Verify that the Test Run Summary widget is displayed.",
+      "Verify that the Recent Activity widget is displayed.",
+      "Verify that the Pass Rate Trend chart is displayed.",
+      "Verify that the filter panel is displayed with Project, Time Period and Status filters."
+    ],
+    "expected result": "All dashboard widgets load successfully without errors or empty placeholders. No widget displays a loading indicator after the page has finished loading.",
+    "priority": "high"
+  },
+  {
+    "id": "TC_DASH_002",
+    "title": "Test Run Summary widget displays correct Pass/Fail/Blocked counts",
+    "precondition": [
+      "User is logged in.",
+      "Project 'Web Regression Suite' contains the following test results:",
+      "Passed = 145, Failed = 12, Blocked = 8."
+    ],
+    "steps": [
+      "Navigate to the Dashboard.",
+      "Select Project = 'Web Regression Suite'.",
+      "Select Time Period = 'Last 30 Days'.",
+      "Observe the Test Run Summary widget."
+    ],
+    "expected result": "The widget displays Passed = 145, Failed = 12 and Blocked = 8, matching the backend values.",
+    "priority": "high"
+  },
+  {
+    "id": "TC_DASH_003",
+    "title": "Recent Activity feed displays the latest activities in descending order",
+    "precondition": [
+      "User is logged in.",
+      "Recent backend activities exist with timestamps.",
+      "Latest activity is 'Test Run #542 completed' at 10:35 AM."
+    ],
+    "steps": [
+      "Navigate to the Dashboard.",
+      "Open the Recent Activity widget.",
+      "Review the first five activity entries.",
+      "Compare the displayed timestamps with backend records."
+    ],
+    "expected result": "Activities are displayed in descending timestamp order. The newest activity ('Test Run #542 completed') appears first and all displayed activities match backend data.",
+    "priority": "medium"
+  },
+  {
+    "id": "TC_DASH_004",
+    "title": "Pass Rate Trend chart displays accurate values from backend",
+    "precondition": [
+      "User is logged in.",
+      "Backend contains weekly pass rates for the last four weeks:",
+      "Week 1 = 91%, Week 2 = 93%, Week 3 = 95%, Week 4 = 92%."
+    ],
+    "steps": [
+      "Navigate to the Dashboard.",
+      "Select Time Period = 'Last 30 Days'.",
+      "Observe the Pass Rate Trend chart.",
+      "Hover over each data point."
+    ],
+    "expected result": "The chart displays pass rates of 91%, 93%, 95% and 92% for the corresponding weeks. Tooltip values match backend values.",
+    "priority": "high"
+  },
+  {
+    "id": "TC_DASH_005",
+    "title": "Project filter updates all dashboard widgets",
+    "precondition": [
+      "User has access to projects 'Web Regression Suite' and 'Mobile Automation'."
+    ],
+    "steps": [
+      "Navigate to the Dashboard.",
+      "Select Project = 'Mobile Automation'.",
+      "Wait for dashboard refresh.",
+      "Observe the Test Run Summary widget.",
+      "Observe the Recent Activity widget.",
+      "Observe the Pass Rate Trend chart."
+    ],
+    "expected result": "All dashboard widgets refresh and display only data belonging to the 'Mobile Automation' project.",
+    "priority": "high"
+  },
+  {
+    "id": "TC_DASH_006",
+    "title": "Time Period filter refreshes dashboard data correctly",
+    "precondition": [
+      "Dashboard contains historical data for multiple time periods."
+    ],
+    "steps": [
+      "Navigate to the Dashboard.",
+      "Select Time Period = 'Last 7 Days'.",
+      "Record widget values.",
+      "Change Time Period to 'Last 30 Days'.",
+      "Compare the displayed values."
+    ],
+    "expected result": "Dashboard widgets refresh automatically and display data only for the selected time period.",
+    "priority": "medium"
+  },
+  {
+    "id": "TC_DASH_007",
+    "title": "Status filter displays only selected execution status",
+    "precondition": [
+      "Dashboard contains Passed, Failed and Blocked test executions."
+    ],
+    "steps": [
+      "Navigate to the Dashboard.",
+      "Select Status filter = 'Failed'.",
+      "Observe the Test Run Summary widget.",
+      "Observe the Recent Activity widget."
+    ],
+    "expected result": "Only failed execution data is displayed. Passed and Blocked results are excluded from the dashboard widgets where applicable.",
+    "priority": "medium"
+  },
+  {
+    "id": "TC_DASH_008",
+    "title": "Dashboard layout is responsive on Desktop viewport (1920×1080)",
+    "precondition": [
+      "User is logged in.",
+      "Browser viewport is set to 1920×1080."
+    ],
+    "steps": [
+      "Open the Dashboard.",
+      "Verify the arrangement of all widgets.",
+      "Resize the browser within desktop dimensions."
+    ],
+    "expected result": "Widgets remain aligned without overlap or truncation. Charts and tables are fully visible and usable.",
+    "priority": "low"
+  },
+  {
+    "id": "TC_DASH_009",
+    "title": "Dashboard layout is responsive on Tablet viewport (768×1024)",
+    "precondition": [
+      "User is logged in.",
+      "Browser viewport is set to 768×1024."
+    ],
+    "steps": [
+      "Open the Dashboard.",
+      "Verify widget layout.",
+      "Scroll vertically through the page.",
+      "Interact with filters and charts."
+    ],
+    "expected result": "Widgets are rearranged appropriately for tablet view. No horizontal scrolling is required and all controls remain usable.",
+    "priority": "low"
+  },
+  {
+    "id": "TC_DASH_010",
+    "title": "Dashboard layout is responsive on Mobile viewport (390×844)",
+    "precondition": [
+      "User is logged in.",
+      "Browser viewport is set to 390×844."
+    ],
+    "steps": [
+      "Open the Dashboard.",
+      "Verify widgets are displayed in a single-column layout.",
+      "Scroll through the page.",
+      "Open filter controls.",
+      "Interact with the Pass Rate Trend chart."
+    ],
+    "expected result": "Dashboard is fully usable on mobile devices. Widgets stack vertically, no content overlaps, filters are accessible and charts remain readable.",
+    "priority": "low"
+  },
+  {
+    "id": "TC_DASH_011",
+    "title": "Viewer role cannot access Admin-only dashboard widgets",
+    "precondition": [
+      "User 'viewer.user@acmetest.com' has Viewer role.",
+      "Pass Rate Trend chart is configured as Admin-only."
+    ],
+    "steps": [
+      "Log in as viewer.user@acmetest.com.",
+      "Navigate to the Dashboard.",
+      "Observe all visible widgets."
+    ],
+    "expected result": "The Viewer can see only permitted widgets (e.g., Test Run Summary and Recent Activity). Admin-only widgets such as the Pass Rate Trend chart are hidden or inaccessible.",
+    "priority": "high"
+  },
+  {
+    "id": "TC_DASH_012",
+    "title": "Admin role can access all dashboard widgets",
+    "precondition": [
+      "User 'admin.user@acmetest.com' has Admin role."
+    ],
+    "steps": [
+      "Log in as admin.user@acmetest.com.",
+      "Navigate to the Dashboard.",
+      "Verify all dashboard widgets are displayed."
+    ],
+    "expected result": "Admin user can view the Test Run Summary, Recent Activity, Pass Rate Trend chart and all dashboard filters without restrictions.",
+    "priority": "medium"
+  }
+]
