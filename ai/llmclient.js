@@ -1,5 +1,3 @@
-// ai/llmClient.js
-// Sends a prompt to Groq's free API and returns the plain-text response.
 
 require('dotenv').config();
 

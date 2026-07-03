@@ -1,6 +1,3 @@
-// ai/failureExplainer.js
-// Given a failed test's context (error message, stack trace, optional API response),
-// asks the LLM for a plain-English explanation and a suggested fix.
 
 const { askLLM } = require('./llmClient');
 
